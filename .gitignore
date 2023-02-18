@@ -1,0 +1,6 @@
+__pycache__
+venv
+db.cpython-310
+*.pyc
+*.pyo
+db.py
