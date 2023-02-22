@@ -15,8 +15,10 @@ router = APIRouter()
 @router.post("/new_user")
 async def new_user(user: User):
     db = Database()
-    document = {"gabeiel":"098"}
+    document = {"name":user.name,"password":user.password}
     db.insert_document('USERS', document)
+    return {"message":"Success"}
+
 
 #Read
 @router.get("/users")
@@ -31,3 +33,21 @@ async def get_users():
         return data
     except:
         return {"Erro":"Conexão com banco de dados não realizada!"}
+
+#Update
+@router.put("/users/{user_name}")
+async def update_user(user: User, user_name: str):
+    db  = Database()
+    existing_user = db.find_item('USERS', user_name)
+    print(existing_user)
+    if existing_user is None:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
+    return {"Resposta": "Ok"}
+
+#Teste select
+@router.get("/teste")
+async def testa():
+    db = Database()
+    users = db.cnx['USERS']
+    testa = db.find_item('USERS','gabriel')
+    print(testa)
